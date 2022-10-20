@@ -1,6 +1,5 @@
 const playerX = 'X'
 const playerY = 'O'
-// const winningBank = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [3, 6, 9], [2, 5, 8], [1, 4, 7], [1, 5, 9], [3, 5, 7]]
 const winningBank = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [2, 5, 8], [1, 4, 7], [0, 3, 6], [0, 4, 8], [2, 4, 6]]
 // Established Varibles and Winning Bank
 // Create variables to target cell and board elements on HTML.
@@ -23,8 +22,12 @@ function cellClick (clickedCellEvent){
         clickedCell.getAttribute('data-cell-index')
     )
     console.log(clickedCellIndex, gameState);
-    if (gameState[clickedCellIndex] !== '' || !gameActive){
-        // alert('Box already selected')
+    if (gameState[clickedCellIndex] !== '' ) {
+        alert('Already Selected!')
+        return;
+        };
+    if (!gameActive){
+        alert('Game Ended')
         return;
     }
     console.log('click');
@@ -74,12 +77,12 @@ function changePlayer(){
 }
 
 function restartGame (){
-    gameActive: true;
     currentPlayer = 'X';
     gameState = ["", "", "", "", "", "", "", "", ""];
     statusDisplay.innerHTML = currentPlayerTurn();
     document.querySelectorAll('.grid-item').forEach(cell => cell.innerHTML = '');
     console.log('restart');
+    gameActive = true;
 }
 
 document.querySelectorAll('.grid-item').forEach(cell => cell.addEventListener('click', cellClick))
