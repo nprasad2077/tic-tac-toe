@@ -5,26 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic-Tac-Toe</title>
-    <script src="script.js"></script>
+    <script defer src="script.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Tic-Tac-Toe Game!</h1>
+    <h2 class="game--status"></h2>
 <div class="grid-container">
-    <div class="grid-item">1</div>
-    <div class="grid-item">2</div>
-    <div class="grid-item">3</div>
-    <div class="grid-item">4</div>
-    <div class="grid-item">5</div>
-    <div class="grid-item">6</div>
-    <div class="grid-item">7</div>
-    <div class="grid-item">8</div>
-    <div class="grid-item">9</div>
+    <div data-cell-index="0" class="grid-item">1</div>
+    <div data-cell-index="1"  class="grid-item">2</div>
+    <div data-cell-index="2"  class="grid-item">3</div>
+    <div data-cell-index="3"  class="grid-item">4</div>
+    <div data-cell-index="4"  class="grid-item">5</div>
+    <div data-cell-index="5"  class="grid-item">6</div>
+    <div data-cell-index="6"  class="grid-item">7</div>
+    <div data-cell-index="7"  class="grid-item">8</div>
+    <div data-cell-index="8"  class="grid-item">9</div>
   </div> 
-<div class="winnin-message" id="winningMessage">
+
+<div class="winning-message" id="winningMessage">
     <div id="winningMessageText"></div>
-    <button id="restartButton">Restart</button>
+    <button id="restart">Restart</button>
 </div>
+
 </body>
 </html>
  
