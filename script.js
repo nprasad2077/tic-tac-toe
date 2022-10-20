@@ -17,6 +17,21 @@ const drawMessage = () => `Game ended in a draw!`;
 const statusDisplay = document.querySelector('.game--status');
 statusDisplay.innerHTML = currentPlayerTurn();
 
+function cellClick (clickedCellEvent){
+    const clickedCell = clickedCellEvent.target
+    const clickedCellIndex = parseInt(
+        clickedCell.getAttribute('data-cell-index')
+    )
+    console.log(clickedCellIndex, gameState);
+    if (gameState[clickedCellIndex] !== '' || !gameActive){
+        // alert('Box already selected')
+        return;
+    }
+    console.log('click');
+    cellPlayed(clickedCell, clickedCellIndex)
+    readGame();
+}
+
 function readGame(){
     let roundWon = false;
     for (let i=0; i<=7; i++) {
@@ -44,28 +59,18 @@ function readGame(){
             gameActive = false;
             return;
     }
-changePlayer();
-console.log('read');
-}
+        changePlayer();
+        console.log('read');
+    }
 
-function cellPlayed(clickedCell, clickedCellIndex){
+function cellPlayed(clickedCell, clickedCellIndex) {
     gameState[clickedCellIndex] = currentPlayer;
     clickedCell.innerHTML = currentPlayer;
 }
 
-function cellClick (clickedCellEvent){
-    const clickedCell = clickedCellEvent.target
-    const clickedCellIndex = parseInt(
-        clickedCell.getAttribute('data-cell-index')
-    )
-    console.log(clickedCellIndex, gameState);
-    if (gameState[clickedCellIndex] !== '' || !gameActive){
-        alert('Box already selected')
-        return;
-    }
-    console.log('click');
-    cellPlayed(clickedCell, clickedCellIndex)
-    readGame();
+function changePlayer(){
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    statusDisplay.innerHTML = currentPlayerTurn();
 }
 
 function restartGame (){
@@ -75,11 +80,6 @@ function restartGame (){
     statusDisplay.innerHTML = currentPlayerTurn();
     document.querySelectorAll('.grid-item').forEach(cell => cell.innerHTML = '');
     console.log('restart');
-}
-
-function changePlayer(){
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    statusDisplay.innerHTML = currentPlayerTurn();
 }
 
 document.querySelectorAll('.grid-item').forEach(cell => cell.addEventListener('click', cellClick))
