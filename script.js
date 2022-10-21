@@ -36,7 +36,7 @@ function readGame(){                                           //Function to che
     let roundWon = false;
     for (let i=0; i<=7; i++) {                                  //Iterate over the 8 possible winning combinations in winningBank array
         const winCondition = winningBank[i]                     
-        let a = gameState[winCondition[0]]                     //Check gameState against the index positions to check if the winning combbinations are populated (with anything)
+        let a = gameState[winCondition[0]]                     //Check if gameState array matches index positions of winning combinations (with any X or 0).
         let b = gameState[winCondition[1]]
         let c = gameState[winCondition[2]]
         if (a === '' || b === '' || c === '') {                
@@ -53,7 +53,7 @@ function readGame(){                                           //Function to che
             return;
     }
 
-        let roundDraw = !gameState.includes(''); 
+        let roundDraw = !gameState.includes('');            //If gameState has all positions filled (meaning no winner) then draw
         if (roundDraw) {
             statusDisplay.innerHTML = drawMessage();
             gameActive = false;
