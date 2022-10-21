@@ -1,79 +1,76 @@
-const playerX = 'X'
+const playerX = 'X'    
 const playerY = 'O'
 const winningBank = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [2, 5, 8], [1, 4, 7], [0, 3, 6], [0, 4, 8], [2, 4, 6]]
-// Established Varibles and Winning Bank
+// Established Player 1 and 2 plus bank of possilbe combinations. The key uses digits 0-8 to represent the 9 boxes. 
 // Create variables to target cell and board elements on HTML.
 const cellElements = document.querySelector('.grid-item')
-const board = document.querySelector('.grid-container')
-const winner = document.querySelector('#winningMessage')
-const restart = document.querySelector('#restart')
-let gameActive = true;
-let currentPlayer = 'X';
-let gameState = ["", "", "", "", "", "", "", "", ""];
-const winningMessage = () => `Player ${currentPlayer} has won!`;
-const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`
-const drawMessage = () => `Game ended in a draw!`;
-const statusDisplay = document.querySelector('.game--status');
-statusDisplay.innerHTML = currentPlayerTurn();
+const restart = document.querySelector('#restart')      // Restart Button
+let gameActive = true;  // Game On/Off function used for tie-game
+let currentPlayer = 'X';    //Will toggle between X and O throughout the game.
+let gameState = ["", "", "", "", "", "", "", "", ""];   //Array that will hold the X or 0 values selected in the grid. Each index number [i] represents the 9 tic -tac-toe boxes.
+const winningMessage = () => `Player ${currentPlayer} has won!`;    //Function to return winner X or O
+const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`;     //Current player display
+const drawMessage = () => `Game ended in a draw!`;                  // Draw message
+const statusDisplay = document.querySelector('.game--status');      //Select game message display
+statusDisplay.innerHTML = currentPlayerTurn();                      //Initial display of scoreboard message.
 
-function cellClick (clickedCellEvent){
-    const clickedCell = clickedCellEvent.target
-    const clickedCellIndex = parseInt(
-        clickedCell.getAttribute('data-cell-index')
+function cellClick (clickedCellEvent){                             
+    const clickedCell = clickedCellEvent.target                    //Variable that contains data for the clicked cell.
+    const clickedCellIndex = parseInt(                             //Get number value from the 0-8 data-cell-index in div
+        clickedCell.getAttribute('data-cell-index')                
     )
-    console.log(clickedCellIndex, gameState);
-    if (gameState[clickedCellIndex] !== '' ) {
+    if (!gameActive){                                              // Check game status and alert if false
+        alert('Game Ended!\nPress Restart')
+        return;
+    }
+    if (gameState[clickedCellIndex] !== '' ) {                     //If there is an X or O already in the index position, an alert will pop up
         alert('Already Selected!')
         return;
         };
-    if (!gameActive){
-        alert('Game Ended')
-        return;
-    }
-    console.log('click');
-    cellPlayed(clickedCell, clickedCellIndex)
-    readGame();
+    console.log(clickedCellIndex, gameState);
+    cellPlayed(clickedCell, clickedCellIndex)                   //Function to insert X or O HTML element from the currentPlayer variable.
+    readGame();                                                //Function to check if any combination matches the winning library.
 }
 
-function readGame(){
+function readGame(){                                           //Function to check if any combination matches the winning library.
     let roundWon = false;
-    for (let i=0; i<=7; i++) {
-        const winCondition = winningBank[i]
-        let a = gameState[winCondition[0]]
+    for (let i=0; i<=7; i++) {                                  //Iterate over the 8 possible winning combinations in winningBank array
+        const winCondition = winningBank[i]                     
+        let a = gameState[winCondition[0]]                     //Check gameState against the index positions to check if the winning combbinations are populated (with anything)
         let b = gameState[winCondition[1]]
         let c = gameState[winCondition[2]]
-        if (a === '' || b === '' || c === '') {
+        if (a === '' || b === '' || c === '') {                
             continue;
         }
-        if (a === b && b === c) {
+        if (a === b && b === c) {                           //If X-X-X or O-O-O are a, b, and c then we have a winner.
             roundWon = true;
             break;
         }
     }
         if (roundWon) {
-            statusDisplay.innerHTML = winningMessage();
+            statusDisplay.innerHTML = winningMessage();         //Winner!
             gameActive = false;
             return;
     }
 
-        let roundDraw = !gameState.includes('');
+        let roundDraw = !gameState.includes(''); 
         if (roundDraw) {
             statusDisplay.innerHTML = drawMessage();
             gameActive = false;
             return;
     }
-        changePlayer();
+        changePlayer();                                 //If none of the above conditons are met change player function.
         console.log('read');
     }
 
-function cellPlayed(clickedCell, clickedCellIndex) {
+function cellPlayed(clickedCell, clickedCellIndex) {        //Function to insert X or O HTML element from the currentPlayer variable.
     gameState[clickedCellIndex] = currentPlayer;
     clickedCell.innerHTML = currentPlayer;
 }
 
-function changePlayer(){
-    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-    statusDisplay.innerHTML = currentPlayerTurn();
+function changePlayer(){                                    //Function that returns O if X is current player and O if current player is X.
+    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';      
+    statusDisplay.innerHTML = currentPlayerTurn();          //Update game display
 }
 
 function restartGame (){
@@ -85,8 +82,8 @@ function restartGame (){
     gameActive = true;
 }
 
-document.querySelectorAll('.grid-item').forEach(cell => cell.addEventListener('click', cellClick))
+document.querySelectorAll('.grid-item').forEach(cell => cell.addEventListener('click', cellClick));         //Event listener on every grid element.
 
-document.querySelector('#restart').addEventListener('click', restartGame);
+document.querySelector('#restart').addEventListener('click', restartGame);                                 //Event listner on reset button.
 
 
